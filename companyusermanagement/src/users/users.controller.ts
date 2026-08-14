@@ -1,18 +1,12 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { identity } from 'rxjs';
 
 @Controller('users') //users
 export class UsersController {
-    /*
-    GET /users
-    GET /users/:id
-    POST /users
-    PATCH /users/:id
-    DELETE /users/:id
-    */
-
-    @Get() //GET Users
-    findAll() {
+    
+    @Get() //GET /Users or /users?role=value
+    findAll(@Query('role') role?: 'INTER' | 'SOFTWARE ENGINEER' | 'ADMIN') 
+    {
         return []
     }
 
@@ -21,8 +15,23 @@ export class UsersController {
         return { id }
     }
 
-    @Get('interns') //GET /users/interns
-    findAllInterns(){
-        return []
+    // @Get('interns') //GET /users/interns
+    // findAllInterns(){
+    //     return []
+    // }
+
+    @Post() //POST /users
+    create(@Body() user: {}) {
+        return user
+    }
+
+    @Patch(':id') //patch /users/:id
+    update(@Param ('id') id: string, @Body() userUpdate: {}) {
+        return { id, ...userUpdate}
+    }
+
+    @Delete(':id') //DELETE /users/:id
+    delete(@Param('id') id: string){
+        return {id}
     }
 }
